@@ -84,6 +84,28 @@ def crear_entrega(datos: CrearEntregaRequest):
     return convertir_entrega(entrega)
 
 
+@router.get("/entregas", response_model=list[EntregaProvedor])
+def obtener_entregas():
+    with obtener_conexion() as conexion:
+        cursor = conexion.cursor()
+        cursor.execute(
+            """
+            SELECT
+                IdEntregaProvedor,
+                NumeroOrden,
+                TrackingNumber,
+                DireccionEntrega,
+                Estado,
+                FechaCreacion
+            FROM ProvedorEntregas_Entregas
+            ORDER BY FechaCreacion DESC, IdEntregaProvedor DESC
+            """
+        )
+        entregas = cursor.fetchall()
+
+    return [convertir_entrega(entrega) for entrega in entregas]
+
+
 @router.get("/entregas/{tracking_number}", response_model=EntregaProvedor)
 def obtener_entrega(tracking_number: str):
     with obtener_conexion() as conexion:

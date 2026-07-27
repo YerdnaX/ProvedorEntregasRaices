@@ -41,6 +41,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8003 --reload
 
 ```bash
 curl http://localhost:8003/api/health
+curl http://localhost:8003/api/entregas
 curl -X POST http://localhost:8003/api/entregas -H "Content-Type: application/json" -d "{\"numeroOrden\":123,\"direccionEntrega\":\"Cartago, Costa Rica\"}"
 curl http://localhost:8003/api/entregas/RBX-20260727-DEMO01
 ```

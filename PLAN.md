@@ -18,8 +18,9 @@ La primera version debe permitir:
 2. Generar un `trackingNumber` unico.
 3. Guardar la relacion entre numero de orden generado por el backend principal y tracking number.
 4. Consultar una entrega por tracking number.
-5. Permitir que el backend principal devuelva el tracking a la app.
-6. Permitir que la app muestre una pantalla de confirmacion para compras a domicilio.
+5. Consultar todas las entregas registradas.
+6. Permitir que el backend principal devuelva el tracking a la app.
+7. Permitir que la app muestre una pantalla de confirmacion para compras a domicilio.
 
 No se implementara seguimiento real de paquetes.
 No se integrara con mapas.
@@ -172,6 +173,29 @@ Regla de idempotencia:
 
 - Si ya existe una entrega para el mismo `NumeroOrden`, retornar la entrega existente.
 - No generar multiples tracking numbers para la misma compra.
+
+### Consultar por tracking
+
+### Consultar todas las entregas
+
+```txt
+GET /api/entregas
+```
+
+Respuesta:
+
+```json
+[
+  {
+    "idEntregaProvedor": 1,
+    "numeroOrden": 123,
+    "trackingNumber": "RBX-20260727-8F3A2C",
+    "direccionEntrega": "Cartago, Costa Rica, 200 metros norte de la iglesia",
+    "estado": "Registrada",
+    "fechaCreacion": "2026-07-27T10:30:00"
+  }
+]
+```
 
 ### Consultar por tracking
 
@@ -344,6 +368,7 @@ Comandos curl sugeridos para el provedor:
 
 ```bash
 curl http://localhost:8003/api/health
+curl http://localhost:8003/api/entregas
 curl -X POST http://localhost:8003/api/entregas ^
   -H "Content-Type: application/json" ^
   -d "{\"numeroOrden\":123,\"direccionEntrega\":\"Cartago, Costa Rica\"}"
